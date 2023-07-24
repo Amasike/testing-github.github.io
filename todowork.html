@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input id="textArea" type="text"/>
+    <button onclick="addTitle()">Add todo</button>
+    <button id="todoButton" onclick="change()">Click Me</button>
+    <div id="counter">0</div>
+    <button onclick="count()">Up</button>
+    <button onclick="remove()">Down</button>
+    <h1>Shopping cart</h1>
+    <div id="cart"></div>
+    <button onclick="addCart('Apple');">Apple</button>
+    <button onclick="addCart('Tomatoes');">Tomatoes</button>
+    <button onclick="addCart('Eggs');">Eggs</button>
+    <button onclick="clearCart();">Clear</button>
+    <h1>cm-inch converter</h1>
+    <input id="word" type="text"/>
+    <button onclick="toCm();">Convert to cm</button>
+    <button onclick="toInch();">Convert to inch</button>
+
+    <div id="todo-list"></div>
+    <div id="receipt"></div>
+    <p id="memo"></p>
+    <p id="memo2"></p>
+    <script>
+        let todo1 = 99;
+        let month = "March";
+        let dayOfMonth = 27;
+        let year = 2023;
+        let work = 4+5*3;
+        let secondWork = (4+5)*3;
+        let age = 28;
+        let message = "I am " + age + " years old";
+
+        /*to add a content to the webpage
+        let element = document.createElement('button'); 
+        element.innerText = "Click me";
+        document.body.appendChild(element);*/
+        
+        //to change the page title, two methods can be used
+        //method1
+        document.title = "myPage"
+        //method2
+        document.querySelector('title').textContent = "myNewPage";
+        
+        function greeting(firstName) {
+            console.log('Hello ' + firstName);
+        }
+        greeting("Ekene");
+
+        function toUpper(str) {
+            console.log(str.toUpperCase());
+        }
+        toUpper('ekene');
+
+        function convert(number) {
+            console.log(number*2.54);
+        }
+        convert(99);
+
+        /*remember the for each loop settles each element of an array individually before moving to the next
+        element of the array*/
+
+        function toUpperLetter(stringArr) {
+            const answer = []
+
+            stringArr.forEach(function(str) {
+                answer.push(str.toUpperCase());
+            });
+            console.log(answer);
+        }
+        toUpperLetter(['simon', 'simeon']);
+        //repeats the element of an array
+        function arrayDouble(mainString) {
+            const result = [];
+
+            mainString.forEach(function(str) {
+                result.push(str);
+                result.push(str);
+            });
+            console.log(result);
+        }
+        arrayDouble(['bark', 'meow']);
+        //adds the element of an array
+        function arraySum(numArray) {
+            let total = 0;
+            numArray.forEach(function(num) {
+                total = total + num;
+            });
+            console.log(total);
+        }
+        arraySum([1,2,3]);
+        arraySum([5, -2, 7, 0]);
+
+        const todos = ['brush off', 'knucle up', 'skip line'];
+
+        render();
+        /*todos.forEach(function(todoTitle) {
+            let element = document.createElement('div');
+        element.innerText = todoTitle;
+        document.body.appendChild(element);    
+        });*/
+
+        function addTitle() {
+            const textBox = document.getElementById('textArea');
+            const title = textBox.value;
+            todos.push(title);
+
+            render();
+            /*simple code to achieve same purpose
+            let textBox = document.getElementById('textArea');
+            let title = textBox.value;
+            
+            let element = document.createElement('div');
+            element.innerText = title;
+            document.body.appendChild(element);*/
+        }
+
+        function render() {
+            //reset our list
+            document.getElementById('todo-list').innerHTML = '';
+
+            todos.forEach(function(todoTitle) {
+            const element = document.createElement('div');
+        element.innerText = todoTitle;
+        const todoList = document.getElementById('todo-list');
+        todoList.appendChild(element);    
+        });
+        }
+
+        function change() {
+            const button = document.getElementById('todoButton');
+            button.innerText = "Done";
+        }
+        let add = 0;
+        function count() {
+            add = add + 1;
+            let number = document.getElementById('counter');
+            number.innerText = add;
+        }
+        function remove() {
+            add = add - 1;
+            let number = document.getElementById('counter');
+            number.innerText = add;
+        }
+        //itemList can be declared outside the fuctions to avoid repetition in each function
+        function addCart(item) {
+            let itemList = document.getElementById('cart');
+
+            const element = document.createElement('div');
+            element.innerText = item;
+            itemList.appendChild(element);
+        }
+        function clearCart() {
+            let itemList = document.getElementById('cart');
+            itemList.innerText = '';
+        }
+
+        let input = document.getElementById('word');
+        
+        function toCm() {
+            let unit = input.value;
+            //value input is in na string form so to convert 
+
+            let converted = +unit * 2.54;
+
+            const answer = document.createElement('div');
+            answer.innerText = converted;
+            document.body.appendChild(answer);
+        }
+        function toInch() {
+            let unit = input.value;
+            //value input is in na string form so to convert 
+
+            let converted = +unit / 2.54;
+
+            const answer = document.createElement('div');
+            answer.innerText = converted;
+            document.body.appendChild(answer);
+        }
+
+        function cartTotal (cartArray) {
+            let total = 0;
+            cartArray.forEach(function(items) {
+                total = total + items.price * items.quantity;
+            })
+            console.log(total);
+        }
+        cartTotal ([{
+            name: 'Apple',
+            price: 4 ,
+            quantity: 5 ,
+        },
+        {
+            name: 'Pear' ,
+            price: 5 ,
+            quantity: 4 ,
+        },
+        {
+            name: 'Papaya' ,
+            price: 2 ,
+            quantity: 6 ,
+        }]);
+
+        const receipt = document.getElementById('receipt');
+        function displayReceipt (cartArray) {
+            receipt.innerHTML= "";
+
+            cartArray.forEach(function(items) {
+                const receiptLine = document.createElement('div');
+                receiptLine.innerText = items.name + ' $' + items.price + ' * ' + items.quantity;
+                receipt.appendChild(receiptLine);
+            });
+
+            let total = 0;
+            cartArray.forEach(function(items) {
+                total = total + items.price * items.quantity;
+            });
+
+            const totalLine = document.createElement('div');
+            totalLine.innerText = 'Cart total = $' + total;
+            receipt.appendChild(totalLine);
+        }
+
+        displayReceipt ([{
+            name: 'Apple',
+            price: 4 ,
+            quantity: 5 ,
+        },
+        {
+            name: 'Pear' ,
+            price: 5 ,
+            quantity: 4 ,
+        },
+        {
+            name: 'Papaya' ,
+            price: 2 ,
+            quantity: 6 ,
+        }]);
+
+        let total = 0;
+        function createCart (foodPrices) {
+            const foods = Object.keys(foodPrices);
+
+            foods.forEach(function (food) {
+                const cartItem = document.createElement('div');
+
+                foodPrice = foodPrices[food];
+                cartItem.innerText = food + '$' +foodPrice;
+
+                const addButton = document.createElement('button');
+                addButton.innerText = 'Add';
+                addButton.onclick = function () {
+                    total = total + foodPrice;
+                };
+                cartItem.appendChild(addButton);
+                document.body.appendChild(cartItem);
+            });
+        }
+
+        createCart({Apple: 3,
+                    Orange: 4,
+                    Egg: 2});
+
+        function aboveFreezing(temps) {
+            let tempAboveFreezing = temps.filter(function(numb) {
+                return numb > 32; //assuming the temperature is in fahrenheit
+            });
+            return tempAboveFreezing;
+        }
+        aboveFreezing([40, 50, 31, 23, 44, 11, 42, 21, 7, -34, -2]);
+
+        function removeRed(foodArray) {
+            //we can return the filtered array in the same line instead of saving it in avariable
+            foodArray.filter(function(food) {
+                return food.color !== 'red';
+            });
+        }
+        removeRed([{name: 'Apple', color: 'red'}, 
+                    {name: 'Pear', color: 'purple'}, 
+                    {name: 'Banana', color: 'yellow'}, 
+                    {name: 'Pineapple', color: 'green'}]);
+
+        //To obtain the highestb value in an array
+        function max(numArray){
+            let max = -Infinity;
+
+            numArray.forEach(function(num) {
+                if (num > max) {
+                    max = num;
+                }
+            });
+            return max;
+        }
+        max([3, 6, 2, 34, 6, 5, 2]);
+
+        /*Alternatively, the highest number can also be obtained as follows
+        const numb = [3, 6, 2, 34, 6, 5, 2];
+        numb.sort(function(a, b) {
+            return b-a
+        });
+        document.getElementById('memo').innerHTML = numb[0];*/
+
+        //To obtain the lowest value in an array
+        function min(numArray){
+            let min = Infinity;
+
+            numArray.forEach(function(num) {
+                if (num < min) {
+                    min = num;
+                }
+            });
+            return min;
+        }
+        min([3, 6, 2, 34, 6, 5, 2]);
+
+        /*Alternatively, the lowest number can also be obtained as follows
+        const numb = [3, 6, 2, 34, 6, 5, 2];
+        numb.sort(function(a, b) {
+            return a-b
+        });
+        document.getElementById('memo2').innerHTML = numb[0];*/
+
+        function number(numArray){
+            let min = Infinity;
+
+            numArray.forEach(function(num) {
+                if (num < 0) {
+                    return;
+                } else if (num < min) {
+                    min = num;
+                }
+            });
+            return min;
+        }
+        number([3, 6, -2, 34, 6, 5, -2]);
+
+        //to remove the first 2 apples from the array
+        function pickApples (fruitArray) {
+            let applesPicked = 0;
+
+            const filteredArray = fruitArray.filter(function(fruit) {
+                if (applesPicked >= 2) {
+                    return true;
+                } else if (fruit === 'apple') {
+                    applesPicked = applesPicked + 1;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            return filteredArray;
+        }
+
+        pickApples(['cherry', 'apple', 'orange', 'apple', 'banana', 'apple']);
+
+        //to remove 2 apples and 1 oranges from the array
+        function pickFruits (fruitArray) {
+            let applesPicked = 0;
+            let orangesPicked = 0;
+
+            const filteredArray = fruitArray.filter(function(fruit) {
+                if (fruit ==='apple') {
+                    if (applesPicked >= 2) {
+                        return true;
+                    } else {
+                        applesPicked = applesPicked + 1;
+                        return false;
+                    }
+                } else if (fruit === 'orange') {
+                    if (orangesPicked >= 1) {
+                        return true;
+                    } else {
+                        orangesPicked = orangesPicked + 1;
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            });
+            return filteredArray;
+        }
+        pickFruits(['cherry', 'apple', 'orange', 'apple', 'banana', 'apple']);
+    
+        //to remove the last 2 apples from the array
+        function pickLastApples (fruitArray) {
+            let applesPicked = 0;
+
+            const reversedArray = fruitArray.reverse();
+
+            const filteredArray = reversedArray.filter(function(fruit) {
+                if (applesPicked >= 2) {
+                    return true;
+                } else if (fruit === 'apple') {
+                    applesPicked = applesPicked + 1;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            return filteredArray.reverse();
+        }
+        pickLastApples(['cherry', 'apple', 'orange', 'apple', 'banana', 'apple']);
+    </script>
+</body>
+</html>

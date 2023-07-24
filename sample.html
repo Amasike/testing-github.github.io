@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="side1">Side 1:</label>
+    <input id="side1" type="number" name="side1" placeholder="0"><br>
+    <label for="side2">Side 2:</label>
+    <input id="side2" type="number" name="side2" placeholder="0"><br>
+    <label for="side3">Side 3:</label>
+    <input id="side3" type="number" name="side3" placeholder="0"><br>
+    <button id="btn">Calculate</button>
+    <p id="demo"></p>
+    <div class="view"></div>
+    <script>
+        let side1 = document.getElementById('side1');
+        let side2 = document.getElementById('side2');
+        let side3 = document.getElementById('side3');
+
+        let a = side1.value;
+        let b = side2.value;
+        let c = side3.value;
+
+    const calButton = document.getElementById('btn');
+        calButton.onclick = run;
+
+        function run(){
+            let s = 1/2 * (a+b+c);
+//Heron's formula
+    let area = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+
+    let result = document.getElementById('demo');
+    result.innerHTML = 'The answer is ' + area + 'cm2'; 
+        }
+
+        const test1 = 'going';
+        const news = test1.toUpperCase();
+        console.log('tested ', news);
+
+        const bot = 3.2;
+        const red = 4.3;
+        const bot1 = bot > red;
+
+        console.log('boolean', bot1);
+
+        const sym1 = Symbol('peter');
+        const sym2 = Symbol('peter');
+        const testSym = sym1 === sym2;
+
+        console.log('checking', testSym);
+
+        const blogObj = {
+            title: "Programming",
+            author: "Mr Kaycee",
+            date: 22-4-2023,
+            content: "vanilla Javascript",
+            class: 3,
+            publish: function() {
+                console.log(`The ${this.title} lecture was organised by ${this.author} on ${this.date}, on the topic ${this.content} with ${this.class} classes`);
+            },
+            unpublish(){
+                console.log('you should unpublish' + " " + this.title);
+            },
+            delete(){
+
+            }
+        }
+        const template = `This is ${blogObj.content}`
+        console.log('Template', template);
+        const title = blogObj.title;
+    blogObj.publish();
+    console.log('Object title', title);
+    //can also br achieved by
+    //console.log('Object title', [title]);
+    blogObj.unpublish();
+
+    const myArray = ['Abike', 'Ebuka', 'James']
+    console.log('Array', myArray[0]);
+    myArray.forEach(name=>{
+        console.log('my name is', name)
+    });
+
+    const newString = 'WWW.coding.com';
+    //const getString = newString.slice(0,9);
+    const otherString = newString.substring(0,9);
+    const view = document.querySelector('.view');
+    //view.innerHtml = getString;
+    const rep = otherString.replace('c','m');
+    //to replace all of a particular letter use
+    //const rep = otherString.replaceAll('W','m');
+    //or const rep = otherString.replace(/W/g,'m');
+    //use const rep = otherString.replace(/w/gi,'m'); to bypass the case sensitivity
+    const index = newString.lastIndexOf('c');
+
+    //myArray.toString(); 
+    const otherArray = ['Mary','John','Paul']
+    //view.innerHTML = myArray.join(' * ');
+    //view.innerHTML = myArray.concat(otherArray);
+
+    const d = new Date();
+
+    //view.innerHTML = d.toLocaleDateString( );
+    //view.innerHTML = d.getMinutes();
+
+    /*const tick = () => {
+        const date = new Date();
+        view.innerHTML = date.toLocaleTimeString();
+    }
+    setInterval(tick, 1000)*/
+
+    function myFunc(){
+        view.innerHTML = `The ${blogObj.title} lecture was organised by ${blogObj.author} on ${blogObj.date}, on the topic ${blogObj.content} with ${blogObj.class} classes`;
+    }
+    //myFunc();
+    const lit = 'This is a ';
+    //view.innerHTML = lit.concat(blogObj.title) + ' class';
+
+    const newFunc = (a,b) => {
+        return (a + b) * 2;
+    }
+    const value = newFunc(4,5);
+    const multiply = value * 2;
+    //view.innerHTML = multiply;
+
+    const payment = (amount,tax) => {
+        let total = 0;
+        for(let i=0; i < amount.length; i++) {
+            total += amount[i] + amount[i] * tax;
+        }
+        return total;
+    }
+    //view.innerHTML = payment([10,20,30],0.2);
+
+//Callback Fuctions
+    const func1 = (something) => {
+        view.innerHTML = 'The result is ' + something;
+    }
+
+    const newFunc1 = (a, b, callback) => {
+        let sum = a + b;
+        callback(sum);
+    }
+    //newFunc1(3, 5, func1);
+
+    //CONTROL FLOWS
+    //LOOPS AND CONDITIONALS ARE REFERED TO AS CVONTROL FLOWS
+    for(let i = 0; i < 5; i++) {
+        //view.innerHTML += "The number is " + i + '<br>';
+    }
+
+    const testArr = ['Peter', 'Pascal', 'Pauline'];
+    let i = 0;
+    while(i < testArr.length) {
+        view.innerHTML += testArr[i] + '<br>';
+        i++;
+    }
+    </script>
+</body>
+</html> 

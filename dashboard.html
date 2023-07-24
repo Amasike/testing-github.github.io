@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+    img {
+        width: 60px;
+    }
+    </style>
+</head>
+<body>
+    <img src="" alt="" class="profile">
+    <h2>Welcome Mr <span class="name"></span></h2>
+    <p>Your email is <span class="email"></span></p>
+    <button onclick="logOut()">Logout</button>
+
+    <script>
+        const name = document.querySelector('.name');
+        const getUserInfo = sessionStorage.getItem('users');
+        const email = document.querySelector('.email');
+        const profile = document.querySelector('.profile');
+
+        function logOut() {
+            sessionStorage.removeItem('users');
+            window.location.href = './login.html'
+        }
+
+        if(getUserInfo) {
+            const userData = JSON.parse(getUserInfo);
+            name.textContent = userData.name;
+            email.textContent = userData.email;
+            profile.src = userData.img;
+        } else {
+            window.location.href = './login.html'
+        }
+    </script>
+</body>
+</html>

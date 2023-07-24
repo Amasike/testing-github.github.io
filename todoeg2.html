@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo</title>
+</head>
+<body>
+    <input id="todo-title" type="text"/>
+    <input id="date-picker" type="date"/>
+    <button onclick="addTodo();">Add Todo</button>
+
+    <div id="todo-list"></div>
+
+    <script>
+        //Model Section
+        // If local storage has a todos array, then use it
+        //Otherwise, use the default array.
+        let todos;
+        // Retrieve local storage
+        const savedTodos = JSON.parse(localStorage.getItem('todos'));
+        // Check if it is an array
+            if (Array.isArray(savedTodos)) {
+                todos = savedTodos;
+            } else {
+                todos = [{
+                    title: 'Get groceries',
+                    dueDate: 12-12-2021, 
+                    id: 'id1'},
+                    {
+                    title: 'Wash car',
+                    dueDate: 4-4-2022,
+                    id: 'id2'},
+                    {
+                    title: 'Make Dinner',
+                    dueDate: 3-3-2023,
+                    id: 'id3' }];
+            }
+
+            //Creates a todo
+            function createTodo (title, dueDate) {
+                //the following code was converted to a string 
+            //because it will cause an error as a number later in the code
+            //though this can also be corrected by using the code
+            //(todo.id == idToDelete) and allowing the number-type variable variable
+            const id = ''+new Date().getTime();
+
+            todos.push({
+            title: title,
+            dueDate: dueDate,
+            id: id
+            });
+
+            saveTodos();
+         }   
+
+         //NOTE
+         //To convert a number to a string use...
+         '' + number; 
+         //To turn a string to an array use....
+         JSON.parse('data');
+         //To turn an object into a string use...
+         JSON.stringify('data');
+         //To save data in the browser use....
+         localStorage.setItem('key', 'data');
+         //To retrieve data from the local storage use...
+         localStorage.parse('key');
+         //To Check if a variable is an array use.....
+         Array.isArray(data);
+        
+         //Deletes a todo
+        function removeTodo(idToDelete) {
+            todos = todos.filter(function(todo) {
+                //if the id of this todo matches the id to delete, return false
+                //for everything else return true
+
+                if (todo.id === idToDelete) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+
+            saveTodos();
+        }
+
+        function setEditing(todoId) {
+            todos.forEach(function(todo) {
+                if (todo.id === todoId) {
+                    todo.isEditing = true;
+                }
+            });
+
+            saveTodos();
+        }
+
+        function updateTodo(todoId, newTitle, newDate) {
+            todos.forEach(function (todo) {
+                if (todo.id === todoId) {
+                    todo.title = newTitle;
+                    todo.dueDate = newDate;
+                    todo.isEditing = false;
+                }
+            });
+
+            saveTodos();
+        }
+
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+
+        //Controller Section
+        function addTodo() {
+            const textBox = document.getElementById('todo-title');
+            const title = textBox.value;
+
+            const datePicker = document.getElementById('date-picker');
+            const dueDate = datePicker.value;
+
+            createTodo(title, dueDate);
+
+            render();
+        }
+
+        function deleteTodo(event) {
+            const deleteButton = event.target;
+            const idToDelete = deleteButton.id;
+
+            removeTodo(idToDelete);
+
+            render();
+        }
+
+        function onEdit(event) {
+            const editButton = event.target;
+            const todoId = editButton.dataset.todoId;
+
+            setEditing(todoId);
+            render();
+        }
+
+        function onUpDate(event) {
+            const updateButton = event.taget;
+            const todoId = updateButton.dataset.todoId;
+
+            const textbox = document.getElementById('edit-title-' + todoId);
+            const newTitle = textbox.value;
+
+            const datePicker = document.getElementById('edit-date-' + todoId);
+            const newDate = datePicker.value;
+
+            updateTodo(todoId, newTitle, newDate);
+            render();
+        }
+
+        //View Section
+        function render() {
+            //the next line of code resets our list
+            document.getElementById('todo-list').innerHTML = '';
+
+            todos.forEach(function(todo) {
+            const element = document.createElement('div');
+
+            //If this todo is being edited, render a textbox, date picker and
+            //a button for saving the edits.
+            if (todo.isEditing === true) {
+                const textbox = document.createElement('input');
+                textbox.type = 'text';
+                textbox.id = 'edit-title-' + todo.id;
+                element.appendChild(textbox);
+
+                const updateButton = document.createElement('button');
+                updateButton.innerText = 'update';
+                updateButton.dataset.todoId = todo.id;
+                updateButton.onclick = onUpDate;
+                element.appendChild(updateButton);
+
+                //If this todo is not being edited, render what we had before
+                //and add an edit button.
+        } else {
+            element.innerText = todo.title + ' ' + todo.dueDate;
+
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Edit';
+            editButton.style = 'margin-left: 15px';
+            editButton.onclick = onEdit;
+            editButton.dataset.todoId = todo.id;
+            element.appendChild(editButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.style = 'margin-left: 15px';
+            deleteButton.onclick = deleteTodo;
+            deleteButton.id = todo.id;
+            element.appendChild(deleteButton);
+        }
+
+        const todoList = document.getElementById('todo-list');
+        todoList.appendChild(element);    
+        });
+        }
+
+        render();
+    </script>
+</body>
+</html>
